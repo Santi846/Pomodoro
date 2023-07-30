@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Clock } from '../components/clock';
 import Picture from './images/momento.png';
+import { Clock } from '../components/Clock.jsx';
 import './App.css';
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       </div>
       <h1>Pomodoro Technique</h1>
       <div className="card">
-        <Clock />
+        <Clock></Clock>
       </div>
     </>
   );

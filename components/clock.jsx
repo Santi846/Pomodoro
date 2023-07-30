@@ -2,29 +2,41 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 export function Clock () {
+    const [time, setTime] = useState(0);
+    const [running, setRunning] = useState(false);
 
-const [date, setDate] = useState(new Date());
-// const [clock, resetClock] = useState();
-
- 
-const refreshDate = () => {
-    setDate(new Date());
-}
-
-// const restartClock = () => {
-//     resetClock();
-// }
-
-useEffect ( () => {
-    const timerId = setInterval (refreshDate, 1000);
-    return function cleanUP () {
-        clearInterval(timerId);
-    }
-}, []);
-
+    useEffect( () => {
+        let interval;
+        let previousTime;
+        if (running) {
+            interval = setInterval (() => {
+                setTime((previousTime) => previousTime + 10)
+            }, 10)
+            
+        } 
+        else if (!running) {
+            clearInterval(interval);
+            // alert("Stop");
+          }
+          return () => clearInterval(interval);
+          
+    }, [running]);
 
     return (
-        <span>{date.toLocaleDateString()}</span>
+        <>
+        <div className="StopWatch">
+        {/* Minutes */}
+        <span>{("0" + Math.floor((time / 60000) % 25)).slice(-2)}:</span>
+        {/* Seconds */}
+        <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</span>
+        {/* Milliseconds */}
+        <span>{("0" + ((time / 10) % 100)).slice(-2)}</span>
+        </div>
+        <div className="Actions">
+            <button onClick={() => {setRunning(true)}}>Start</button>
+            <button onClick={() => {setRunning(false)}}>Stop</button>
+            <button onClick={() => {setTime(0)}}>Reset</button>
+        </div>
+        </>
     );
-
 };
